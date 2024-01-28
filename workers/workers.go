@@ -1,16 +1,16 @@
 package workers
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/hibiken/asynq"
 )
 
 func StartServe() {
-	// Fixme : Addr should be in the form of "redis-container-name:port"
-	// and it should be read from a configuration file or env variable
 	srv := asynq.NewServer(
-		asynq.RedisClientOpt{Addr: "localhost:6379"},
+		asynq.RedisClientOpt{Addr: fmt.Sprintf("%s:%d", os.Getenv("APP_REDIS_HOST"), os.Getenv("APP_REDIS_PORT"))},
 		asynq.Config{Concurrency: 10},
 	)
 
